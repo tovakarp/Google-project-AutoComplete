@@ -26,8 +26,14 @@ def store_data(data_dic, file_path, line_in_file, line, substrings):
     for string in substrings:
         if string not in data_dic.keys():
             data_dic[string] = []
-        data_dic[string].append([file_path, line_in_file, line.find(string)]) if len(
-            data_dic[string]) < 5 else line.find(string) > data_dic[string][4][2]
+            
+        offset = line.find(string)
+
+        if len(data_dic[string]) < 5:
+            data_dic[string].append([file_path, line_in_file, offset])
+        elif offset > data_dic[string][4][2]:
+            data_dic[string][4] = [file_path, line_in_file, offset]
+        
         data_dic[string].sort(key=lambda x: x[2])
 
 
